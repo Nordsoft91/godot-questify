@@ -98,7 +98,9 @@ func request_query(type: String, key: String, value: Variant, requester: QuestCo
 	
 func complete_objective(objective: QuestObjective) -> void:
 	Questify.quest_objective_completed.emit(self, objective)
-	_notify_active_objectives()
+	for node in objective.next:
+		if node is QuestObjective and node.get_active():
+			Questify.quest_objective_added.emit(self, node)
 	
 	
 func complete_quest() -> void:
